@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\Src\AssemblyInfo.cpp" />
+    <ClCompile Include="..\Src\BufferPool.cpp" />
+    <ClCompile Include="..\Src\InputStream.cpp" />
+    <ClCompile Include="..\Src\OutputStream.cpp" />
+    <ClCompile Include="..\Src\Transport.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Inc\BufferPool.h" />
+    <ClInclude Include="..\Inc\InputStream.h" />
+    <ClInclude Include="..\Inc\OutputStream.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
