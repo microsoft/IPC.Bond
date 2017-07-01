@@ -1,0 +1,6 @@
+[submodule "IPC"]
+	path = IPC
+	url = https://github.com/Microsoft/IPC
+[submodule "bond"]
+	path = bond
+	url = https://github.com/Microsoft/bond.git

@@ -1,0 +1,37 @@
+namespace IPC.Bond.Managed.UnitTests
+
+enum TestEnum
+{
+    Value1 = -1,
+    Value2 = 0,
+    Value3 = 1
+}
+
+struct ValueStruct
+{
+    01: bool     FieldBool;
+    02: int8     FieldInt8;
+    03: uint8    FieldUInt8;
+    04: int16    FieldInt16;
+    05: uint16   FieldUInt16;
+    06: int32    FieldInt32;
+    07: uint32   FieldUInt32;
+    08: int64    FieldInt64;
+    09: uint64   FieldUInt64;
+    10: float    FieldFloat;
+    11: double   FieldDouble;
+    12: string   FieldString;
+    13: wstring  FieldWString;
+    14: TestEnum FieldEnum = Value1;
+    15: blob     FieldBlob;
+};
+
+struct TestStruct
+{
+    1: list<ValueStruct>        FieldList;
+    2: vector<ValueStruct>      FieldVector;
+    3: set<int32>               FieldSet;
+    4: map<string, ValueStruct> FieldMap;
+    5: nullable<ValueStruct>    FieldNullable;
+    6: bonded<ValueStruct>      FieldBonded;
+}
