@@ -26,9 +26,9 @@ namespace Managed
 
             void* Allocate(std::uint32_t size);
 
-			void WriteFloat(float value);
+            void WriteFloat(float value);
 
-			void WriteDouble(double value);
+            void WriteDouble(double value);
 
             void WriteByte(std::uint8_t value);
 

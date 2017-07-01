@@ -36,9 +36,9 @@ namespace Managed
     System::Int64 OutputStream::Position::get()
     {
 #ifdef NDEBUG
-		ThrowNotImplemented();
+        ThrowNotImplemented();
 #else
-		return 0;
+        return 0;
 #endif // NDEBUG
     }
 
@@ -47,15 +47,15 @@ namespace Managed
         ThrowNotImplemented();
     }
 
-	void OutputStream::WriteFloat(System::Single value)
-	{
-		m_impl->WriteFloat(value);
-	}
+    void OutputStream::WriteFloat(System::Single value)
+    {
+        m_impl->WriteFloat(value);
+    }
 
-	void OutputStream::WriteDouble(System::Double value)
-	{
-		m_impl->WriteDouble(value);
-	}
+    void OutputStream::WriteDouble(System::Double value)
+    {
+        m_impl->WriteDouble(value);
+    }
 
     void OutputStream::WriteUInt8(System::Byte value)
     {
@@ -92,28 +92,28 @@ namespace Managed
         m_impl->WriteVarUInt64(value);
     }
 
-	void OutputStream::WriteString(System::Text::Encoding^ encoding, System::String^ value, System::Int32 count)
-	{
-		auto ptr = m_impl->Allocate(count);
-		pin_ptr<const wchar_t> str = PtrToStringChars(value);
-		encoding->GetBytes(const_cast<wchar_t*>(str), value->Length, static_cast<unsigned char*>(ptr), count);
-	}
+    void OutputStream::WriteString(System::Text::Encoding^ encoding, System::String^ value, System::Int32 count)
+    {
+        auto ptr = m_impl->Allocate(count);
+        pin_ptr<const wchar_t> str = PtrToStringChars(value);
+        encoding->GetBytes(const_cast<wchar_t*>(str), value->Length, static_cast<unsigned char*>(ptr), count);
+    }
 
-	void OutputStream::WriteBytes(System::ArraySegment<System::Byte> data)
-	{
-		if (data.Array != nullptr && data.Count > 0)
-		{
-			pin_ptr<System::Byte> ptr = &data.Array[data.Offset];
-			m_impl->Write(ptr, data.Count);
-		}
-	}
+    void OutputStream::WriteBytes(System::ArraySegment<System::Byte> data)
+    {
+        if (data.Array != nullptr && data.Count > 0)
+        {
+            pin_ptr<System::Byte> ptr = &data.Array[data.Offset];
+            m_impl->Write(ptr, data.Count);
+        }
+    }
 
-	BufferPool::ConstBuffer^ OutputStream::GetBuffer()
-	{
-		auto buffer = gcnew BufferPool::ConstBuffer{ std::move(*m_impl).GetBuffer() };
-		delete this;
-		return buffer;
-	}
+    BufferPool::ConstBuffer^ OutputStream::GetBuffer()
+    {
+        auto buffer = gcnew BufferPool::ConstBuffer{ std::move(*m_impl).GetBuffer() };
+        delete this;
+        return buffer;
+    }
 
 } // Managed
 } // Bond

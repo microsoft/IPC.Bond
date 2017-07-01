@@ -46,19 +46,19 @@ namespace Managed
             return InvokeThrow([&] { return m_impl->Allocate(size); });
         }
 
-		float InputBuffer::ReadFloat()
-		{
-			float value;
-			InvokeThrow([&] { m_impl->Read(value); });
-			return value;
-		}
+        float InputBuffer::ReadFloat()
+        {
+            float value;
+            InvokeThrow([&] { m_impl->Read(value); });
+            return value;
+        }
 
-		double InputBuffer::ReadDouble()
-		{
-			double value;
-			InvokeThrow([&] { m_impl->Read(value); });
-			return value;
-		}
+        double InputBuffer::ReadDouble()
+        {
+            double value;
+            InvokeThrow([&] { m_impl->Read(value); });
+            return value;
+        }
 
         std::uint8_t InputBuffer::ReadByte()
         {

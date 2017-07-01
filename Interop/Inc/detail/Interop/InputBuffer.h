@@ -30,9 +30,9 @@ namespace Managed
 
             const void* Allocate(std::uint32_t size);
 
-			float ReadFloat();
+            float ReadFloat();
 
-			double ReadDouble();
+            double ReadDouble();
 
             std::uint8_t ReadByte();
 

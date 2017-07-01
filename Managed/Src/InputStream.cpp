@@ -52,21 +52,21 @@ namespace Managed
         ThrowNotImplemented();
     }
 
-	void InputStream::Position::set(System::Int64 value)
-	{
-		// TODO: Needs to be implemented. (?)
-		ThrowNotImplemented();
-	}
+    void InputStream::Position::set(System::Int64 value)
+    {
+        // TODO: Needs to be implemented. (?)
+        ThrowNotImplemented();
+    }
 
-	System::Single InputStream::ReadFloat()
-	{
-		return m_impl->ReadFloat();
-	}
+    System::Single InputStream::ReadFloat()
+    {
+        return m_impl->ReadFloat();
+    }
 
-	System::Double InputStream::ReadDouble()
-	{
-		return m_impl->ReadDouble();
-	}
+    System::Double InputStream::ReadDouble()
+    {
+        return m_impl->ReadDouble();
+    }
 
     System::Byte InputStream::ReadUInt8()
     {
@@ -103,26 +103,26 @@ namespace Managed
         return m_impl->ReadVarUInt64();
     }
 
-	System::String^ InputStream::ReadString(System::Text::Encoding^ encoding, System::Int32 count)
-	{
-		auto ptr = m_impl->Allocate(count);
-		return encoding->GetString(static_cast<unsigned char*>(const_cast<void*>(ptr)), count);
-	}
+    System::String^ InputStream::ReadString(System::Text::Encoding^ encoding, System::Int32 count)
+    {
+        auto ptr = m_impl->Allocate(count);
+        return encoding->GetString(static_cast<unsigned char*>(const_cast<void*>(ptr)), count);
+    }
 
-	System::ArraySegment<System::Byte> InputStream::ReadBytes(System::Int32 count)
-	{
-		auto buffer = gcnew cli::array<System::Byte>(count);
-		pin_ptr<System::Byte> ptr = &buffer[0];
-		m_impl->Read(ptr, count);
-		return System::ArraySegment<System::Byte>(buffer);
-	}
+    System::ArraySegment<System::Byte> InputStream::ReadBytes(System::Int32 count)
+    {
+        auto buffer = gcnew cli::array<System::Byte>(count);
+        pin_ptr<System::Byte> ptr = &buffer[0];
+        m_impl->Read(ptr, count);
+        return System::ArraySegment<System::Byte>(buffer);
+    }
 
-	void InputStream::SkipBytes(System::Int32 count)
-	{
-		m_impl->Skip(count);
-	}
+    void InputStream::SkipBytes(System::Int32 count)
+    {
+        m_impl->Skip(count);
+    }
 
-	InputStream^ InputStream::Clone()
+    InputStream^ InputStream::Clone()
     {
         return gcnew InputStream{ *this };
     }
