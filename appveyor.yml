@@ -1,0 +1,42 @@
+version: 1.0.{build}
+
+image: Visual Studio 2015
+
+cache:
+  - IPC\packages -> **\packages.config
+
+platform:
+  - x64
+
+configuration:
+  - Debug
+  - Release
+
+environment:
+  BUILD_PATH: $(platform)\$(configuration)
+
+install:
+  - git submodule update --init
+  - cd bond
+  - git submodule update --init thirdparty\rapidjson
+  - cd ..
+
+matrix:
+  fast_finish: true
+
+before_build:
+  - nuget restore IPC.Bond.sln
+  - bond.cmd %configuration% "C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - msbuild IPC\IPC.sln /p:Configuration=%configuration% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+
+build:
+  project: IPC.Bond.sln
+
+test:
+  assemblies:
+  - $(BUILD_PATH)\IPC.Bond.Managed.UnitTests.dll
+
+test_script:
+  - cd %BUILD_PATH%
+  - IPC.Bond.UnitTests.exe --detect_memory_leaks=0 --log_level=test_suite
+  - nunit3-console --framework=net-4.5 --labels=All IPC.Bond.Managed.UnitTests.dll --result=IPC.Bond.Managed.UnitTests.xml;format=AppVeyor
