@@ -1,6 +1,6 @@
 # IPC.Bond
 
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Microsoft/IPC/blob/master/LICENSE)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Microsoft/IPC/blob/master/LICENSE) [![Build status](https://ci.appveyor.com/api/projects/status/osyu679dga5vhx92/branch/master?svg=true)](https://ci.appveyor.com/project/ara-ayvazyan/ipc-bond/branch/master)
 
 IPC.Bond is an extension of [IPC](https://github.com/Microsoft/IPC) library that provides inter-process communication using shared memory on Windows with [Bond](https://github.com/Microsoft/bond) serialization.<br/>
 
