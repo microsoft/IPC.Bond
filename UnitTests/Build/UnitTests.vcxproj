@@ -33,13 +33,13 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Ws2_32.lib;Synchronization.lib;..\..\IPC\$(Platform)\$(Configuration)\IPC.lib;..\..\bond\build\target\lib\bond\bond.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\..\IPC\$(Platform)\$(Configuration)\IPC.lib;..\..\bond\build\target\$(Configuration)\lib\bond\bond.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\Inc;..\..\IPC\Inc;..\..\bond\build\target\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Inc;..\..\IPC\Inc;..\..\bond\build\target\$(Configuration)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;BOND_COMPACT_BINARY_PROTOCOL;BOND_SIMPLE_BINARY_PROTOCOL;BOND_FAST_BINARY_PROTOCOL;BOND_SIMPLE_JSON_PROTOCOL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

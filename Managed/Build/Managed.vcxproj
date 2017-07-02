@@ -37,7 +37,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies>wininet.lib;..\..\IPC\$(Platform)\$(Configuration)\IPC.lib;..\..\IPC\$(Platform)\$(Configuration)\IPC.Interop.lib;..\..\IPC\$(Platform)\$(Configuration)\IPC.Managed.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\..\IPC\$(Platform)\$(Configuration)\IPC.lib;..\..\IPC\$(Platform)\$(Configuration)\IPC.Interop.lib;..\..\IPC\$(Platform)\$(Configuration)\IPC.Managed.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalOptions>/ignore:4248 %(AdditionalOptions)</AdditionalOptions>
     </Link>

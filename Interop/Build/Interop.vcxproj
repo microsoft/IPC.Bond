@@ -52,7 +52,7 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\Inc;..\Inc;..\..\IPC\Inc;..\..\bond\build\target\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Inc;..\Inc;..\..\IPC\Inc;..\..\bond\build\target\$(Configuration)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ProgramDataBaseFileName>$(IntDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
