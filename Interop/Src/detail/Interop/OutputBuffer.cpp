@@ -38,15 +38,15 @@ namespace Managed
             return InvokeThrow([&] { return m_impl->Allocate(size); });
         }
 
-		void OutputBuffer::WriteFloat(float value)
-		{
-			InvokeThrow([&] { m_impl->Write(value); });
-		}
+        void OutputBuffer::WriteFloat(float value)
+        {
+            InvokeThrow([&] { m_impl->Write(value); });
+        }
 
-		void OutputBuffer::WriteDouble(double value)
-		{
-			InvokeThrow([&] { m_impl->Write(value); });
-		}
+        void OutputBuffer::WriteDouble(double value)
+        {
+            InvokeThrow([&] { m_impl->Write(value); });
+        }
 
         void OutputBuffer::WriteByte(std::uint8_t value)
         {
