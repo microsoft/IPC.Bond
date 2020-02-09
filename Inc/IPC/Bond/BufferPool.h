@@ -185,7 +185,7 @@ namespace Bond
 
         const char* data() const
         {
-            return std::addressof(*m_begin);
+            return size() != 0 ? std::addressof(*m_begin) : nullptr;
         }
 
         ConstBlob GetRange(std::size_t offset, std::size_t count) const
