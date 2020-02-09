@@ -41,10 +41,11 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\Inc;..\..\IPC\Inc;..\..\bond\build\target\$(Configuration)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;BOND_COMPACT_BINARY_PROTOCOL;BOND_SIMPLE_BINARY_PROTOCOL;BOND_FAST_BINARY_PROTOCOL;BOND_SIMPLE_JSON_PROTOCOL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;BOND_COMPACT_BINARY_PROTOCOL;BOND_SIMPLE_BINARY_PROTOCOL;BOND_FAST_BINARY_PROTOCOL;BOND_SIMPLE_JSON_PROTOCOL;BOOST_USE_WINDOWS_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4494;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

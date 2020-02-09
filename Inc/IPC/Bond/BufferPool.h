@@ -346,7 +346,7 @@ namespace Bond
         class DefaultBufferPoolQueue : public IPC::detail::LockFree::Queue<T, SharedMemory::Allocator<char>>
         {
         public:
-            using Queue::Queue;
+            using IPC::detail::LockFree::Queue<T, SharedMemory::Allocator<char>>::Queue;
         };
 
         template <typename BufferPool>

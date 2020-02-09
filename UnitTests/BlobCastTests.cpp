@@ -2,6 +2,7 @@
 #include "IPC/Bond/BlobCast.h"
 #include "IPC/SharedMemory.h"
 #include "IPC/detail/RandomString.h"
+#include <array>
 #include <memory>
 
 using namespace IPC::Bond;
@@ -47,16 +48,16 @@ BOOST_AUTO_TEST_CASE(CastToBondBlobTest)
 {
     auto memory = std::make_shared<SharedMemory>(create_only, GenerateRandomString().c_str(), 1024);
 
-    auto& data = memory->Construct<char[5]>(anonymous_instance);
-    std::strcpy(data, "Data");
+    auto& data = memory->Construct<std::array<char, 5>>(anonymous_instance);
+    std::strcpy(data.data(), "Data");
 
-    BlobMock mock{ data, sizeof(data) };
+    BlobMock mock{ data.data(), data.size() };
     BOOST_TEST(mock.unique());
 
     bond::blob blob = BlobCast(mock, memory);
 
-    BOOST_TEST(blob.data() == data);
-    BOOST_TEST(blob.size() == sizeof(data));
+    BOOST_TEST(blob.data() == data.data());
+    BOOST_TEST(blob.size() == data.size());
 
     BOOST_TEST(mock.use_count() == 2);
     blob.clear();
@@ -67,53 +68,53 @@ BOOST_AUTO_TEST_CASE(CastToBondBlobMemoryOwnershipTest)
 {
     auto memory = std::make_shared<SharedMemory>(create_only, GenerateRandomString().c_str(), 1024);
 
-    auto& data = memory->Construct<char[5]>(anonymous_instance);
-    std::strcpy(data, "Data");
+    auto& data = memory->Construct<std::array<char, 5>>(anonymous_instance);
+    std::strcpy(data.data(), "Data");
 
     bond::blob blob;
     {
-        BlobMock mock{ data, sizeof(data) };
+        BlobMock mock{ data.data(), data.size() };
         BOOST_TEST(mock.unique());
         BOOST_TEST(memory.unique());
 
         blob = BlobCast(mock, memory);
     }
 
-    BOOST_TEST(blob.data() == data);
-    BOOST_TEST(blob.size() == sizeof(data));
+    BOOST_TEST(blob.data() == data.data());
+    BOOST_TEST(blob.size() == data.size());
     BOOST_TEST(memory.use_count() == 2);
 
     memory.reset();
 
-    BOOST_TEST(std::strcmp(data, "Data") == 0);
+    BOOST_TEST(std::strcmp(data.data(), "Data") == 0);
 }
 
 BOOST_AUTO_TEST_CASE(CastFromCorrectBondBlobTest)
 {
     auto memory = std::make_shared<SharedMemory>(create_only, GenerateRandomString().c_str(), 1024);
 
-    auto& data = memory->Construct<char[5]>(anonymous_instance);
-    std::strcpy(data, "Data");
+    auto& data = memory->Construct<std::array<char, 5>>(anonymous_instance);
+    std::strcpy(data.data(), "Data");
 
-    BlobMock mock = BlobCast<BlobMock>(BlobCast(BlobMock{ data, sizeof(data) }, memory));
+    BlobMock mock = BlobCast<BlobMock>(BlobCast(BlobMock{ data.data(), data.size() }, memory));
 
-    BOOST_TEST(mock.data() == data);
-    BOOST_TEST(mock.size() == sizeof(data));
+    BOOST_TEST(mock.data() == data.data());
+    BOOST_TEST(mock.size() == data.size());
 }
 
 BOOST_AUTO_TEST_CASE(CastFromCorrectBondBlobWithOffsetTest)
 {
     auto memory = std::make_shared<SharedMemory>(create_only, GenerateRandomString().c_str(), 1024);
 
-    auto& data = memory->Construct<char[6]>(anonymous_instance);
-    std::strcpy(data, "Data!");
+    auto& data = memory->Construct<std::array<char, 6>>(anonymous_instance);
+    std::strcpy(data.data(), "Data!");
 
     constexpr std::size_t offset = 2;
 
-    BlobMock mock = BlobCast<BlobMock>(BlobCast(BlobMock{ data, sizeof(data) }, memory).range(offset));
+    BlobMock mock = BlobCast<BlobMock>(BlobCast(BlobMock{ data.data(), data.size() }, memory).range(offset));
 
-    BOOST_TEST(mock.data() == data + offset);
-    BOOST_TEST(mock.size() == sizeof(data) - offset);
+    BOOST_TEST(mock.data() == data.data() + offset);
+    BOOST_TEST(mock.size() == data.size() - offset);
 }
 
 BOOST_AUTO_TEST_CASE(CastFromIncorrectBondBlobTest)
