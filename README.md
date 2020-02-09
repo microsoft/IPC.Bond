@@ -6,7 +6,7 @@ IPC.Bond is an extension of [IPC](https://github.com/Microsoft/IPC) library that
 
 # Build
 
-The library is developed and maintained with [Visual Studio 2015](https://msdn.microsoft.com/en-us/library/dd831853.aspx).
+The library is developed and maintained with [Visual Studio 2019](https://docs.microsoft.com/en-us/visualstudio/windows/?view=vs-2019).
 In order to build the library you will need to do the following:
   1. Restore NuGet packages for [IPC.Bond.sln](https://github.com/Microsoft/IPC.Bond/blob/master/IPC.Bond.sln).
   2. Build the [Bond](https://github.com/Microsoft/bond) (only core C++) submodule using helper [bond.cmd](https://github.com/Microsoft/IPC.Bond/blob/master/bond.cmd) script.
