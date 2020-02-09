@@ -64,6 +64,33 @@ static_assert(std::is_copy_constructible<DefaultSerializer>::value, "Serializer 
 static_assert(std::is_copy_assignable<DefaultSerializer>::value, "Serializer should be copy assignable.");
 
 
+Struct MakeStruct(DefaultBufferPool& pool)
+{
+    auto data = "Random data for blob.";
+
+    auto blob = pool.TakeBlob();
+    blob->resize(std::strlen(data) + 1, boost::container::default_init);
+    std::strcpy(blob->data(), data);
+
+    bond::blob bondBlob = BlobCast(DefaultBufferPool::ConstBlob{ std::move(blob) }, pool.GetMemory());
+
+    ValueStruct value{
+        1, 2, 3, 4, 5, 6, 7, 8,
+        bondBlob,
+        bond::ProtocolType::COMPACT_PROTOCOL,
+        { bondBlob.data(), bondBlob.size() },
+        data };
+
+    return Struct(
+        value,
+        { 10, value },
+        {
+            { bond::ProtocolType::COMPACT_PROTOCOL, value },
+            { bond::ProtocolType::SIMPLE_PROTOCOL, value },
+            { bond::ProtocolType::SIMPLE_JSON_PROTOCOL, value }
+        });
+}
+
 template <typename Function, typename Protocol, typename MakeBondedFunc>
 void RunProtocolTest(Function&& func, Protocol protocol, MakeBondedFunc&& makeBondedFunc)
 {
@@ -151,33 +178,6 @@ void ForEachCompiletimeProtocol(Function&& func, MakeBondedFunc&& makeBondedFunc
         bond::SimpleBinaryReader,
         bond::FastBinaryReader,
         bond::SimpleJsonReader>(std::forward<Function>(func), std::forward<MakeBondedFunc>(makeBondedFunc));
-}
-
-Struct MakeStruct(DefaultBufferPool& pool)
-{
-    auto data = "Random data for blob.";
-
-    auto blob = pool.TakeBlob();
-    blob->resize(std::strlen(data) + 1, boost::container::default_init);
-    std::strcpy(blob->data(), data);
-
-    bond::blob bondBlob = BlobCast(DefaultBufferPool::ConstBlob{ std::move(blob) }, pool.GetMemory());
-
-    ValueStruct value{
-        1, 2, 3, 4, 5, 6, 7, 8,
-        bondBlob,
-        bond::ProtocolType::COMPACT_PROTOCOL,
-        { bondBlob.data(), bondBlob.size() },
-        data };
-
-    return Struct(
-        value,
-        { 10, value },
-        {
-            { bond::ProtocolType::COMPACT_PROTOCOL, value },
-            { bond::ProtocolType::SIMPLE_PROTOCOL, value },
-            { bond::ProtocolType::SIMPLE_JSON_PROTOCOL, value }
-        });
 }
 
 BOOST_AUTO_TEST_CASE(SerializationUsingRuntimeProtocolTest)

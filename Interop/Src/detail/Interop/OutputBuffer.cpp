@@ -85,7 +85,7 @@ namespace Managed
 
         BufferPool::ConstBuffer OutputBuffer::GetBuffer() &&
         {
-            return InvokeThrow([&] { return std::move(*m_impl).GetBuffer(); });
+            return { InvokeThrow([&] { return std::move(*m_impl).GetBuffer(); }) };
         }
 
     } // Interop
