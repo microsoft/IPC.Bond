@@ -10,7 +10,7 @@ The library is developed and maintained with [Visual Studio 2019](https://docs.m
 In order to build the library you will need to do the following:
   1. Restore NuGet packages for [IPC.Bond.sln](https://github.com/Microsoft/IPC.Bond/blob/master/IPC.Bond.sln).
   2. Build the [Bond](https://github.com/Microsoft/bond) (only core C++) submodule using helper [bond.cmd](https://github.com/Microsoft/IPC.Bond/blob/master/bond.cmd) script.
-  3. Build the [IPC](https://github.com/Microsoft/IPC) submodule using [IPC.sln](https://github.com/Microsoft/IPC/blob/master/IPC.sln).
+  3. Build the [IPC](https://github.com/Microsoft/IPC) submodule using [IPC.sln](https://github.com/Microsoft/IPC/blob/master/IPC.sln) ([Transport.csproj](https://github.com/microsoft/IPC/blob/master/Transport/Transport.csproj) only).
   4. Build the [IPC.Bond.sln](https://github.com/Microsoft/IPC.Bond/blob/master/IPC.Bond.sln).
 
 # Getting Started
