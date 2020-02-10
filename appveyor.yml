@@ -41,7 +41,7 @@ matrix:
 
 before_build:
   - bond.cmd %configuration% "C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-  - msbuild IPC\IPC.sln /p:Configuration=%configuration% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - msbuild IPC\IPC.sln /m /t:Transport /p:Configuration=%configuration% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 build:
   project: IPC.Bond.sln
