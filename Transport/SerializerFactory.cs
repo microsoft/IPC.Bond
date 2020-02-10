@@ -1,5 +1,7 @@
 ﻿namespace IPC.Bond.Managed
 {
+    using System;
+    using System.Linq.Expressions;
     using IInputStream = global::Bond.IO.IInputStream;
     using IOutputStream = global::Bond.IO.IOutputStream;
 
@@ -16,89 +18,37 @@
         T Deserialize<T>(Input input);
     }
 
-    public struct CompactBinarySerializer<Input, Output> : ISerializer<Input, Output>
-        where Input : IInputStream, global::Bond.IO.ICloneable<Input>
-        where Output : IOutputStream
+    internal static class ProtocolFactory<Protocol>
     {
-        public global::Bond.ProtocolType ProtocolType
+        private static class Factory<Stream>
         {
-            get { return global::Bond.ProtocolType.COMPACT_PROTOCOL; }
+            public static readonly Func<Stream, Protocol> Instance = new Func<Func<Stream, Protocol>>(() =>
+                {
+                    var stream = Expression.Parameter(typeof(Stream));
+
+                    return Expression.Lambda<Func<Stream, Protocol>>(
+                        Expression.New(typeof(Protocol).GetConstructor(new[] { typeof(Stream), typeof(ushort) }), stream, Expression.Constant((ushort)1)),
+                        stream).Compile();
+                })();
         }
 
-        public bool IsMarshaled
+        public static Protocol Make<Stream>(Stream stream)
         {
-            get { return false; }
-        }
-
-        public void Serialize<T>(Output output, T obj)
-        {
-            global::Bond.Serialize.To(new global::Bond.Protocols.CompactBinaryWriter<Output>(output), obj);
-        }
-
-        public T Deserialize<T>(Input input)
-        {
-            return global::Bond.Deserialize<T>.From(new global::Bond.Protocols.CompactBinaryReader<Input>(input));
+            return Factory<Stream>.Instance(stream);
         }
     }
 
-    public struct FastBinarySerializer<Input, Output> : ISerializer<Input, Output>
+    internal struct Marshaler<Input, Output, Writer> : ISerializer<Input, Output>
         where Input : IInputStream, global::Bond.IO.ICloneable<Input>
         where Output : IOutputStream
+        where Writer : global::Bond.Protocols.IProtocolWriter
     {
-        public global::Bond.ProtocolType ProtocolType
+        public Marshaler(global::Bond.ProtocolType protocol)
         {
-            get { return global::Bond.ProtocolType.FAST_PROTOCOL; }
+            ProtocolType = protocol;
         }
 
-        public bool IsMarshaled
-        {
-            get { return false; }
-        }
-
-        public void Serialize<T>(Output output, T obj)
-        {
-            global::Bond.Serialize.To(new global::Bond.Protocols.FastBinaryWriter<Output>(output), obj);
-        }
-
-        public T Deserialize<T>(Input input)
-        {
-            return global::Bond.Deserialize<T>.From(new global::Bond.Protocols.FastBinaryReader<Input>(input));
-        }
-    }
-
-    public struct SimpleBinarySerializer<Input, Output> : ISerializer<Input, Output>
-        where Input : IInputStream, global::Bond.IO.ICloneable<Input>
-        where Output : IOutputStream
-    {
-        public global::Bond.ProtocolType ProtocolType
-        {
-            get { return global::Bond.ProtocolType.SIMPLE_PROTOCOL; }
-        }
-
-        public bool IsMarshaled
-        {
-            get { return false; }
-        }
-
-        public void Serialize<T>(Output output, T obj)
-        {
-            global::Bond.Serialize.To(new global::Bond.Protocols.SimpleBinaryWriter<Output>(output), obj);
-        }
-
-        public T Deserialize<T>(Input input)
-        {
-            return global::Bond.Deserialize<T>.From(new global::Bond.Protocols.SimpleBinaryReader<Input>(input));
-        }
-    }
-
-    public struct CompactBinaryMarshaler<Input, Output> : ISerializer<Input, Output>
-        where Input : IInputStream, global::Bond.IO.ICloneable<Input>
-        where Output : IOutputStream
-    {
-        public global::Bond.ProtocolType ProtocolType
-        {
-            get { return global::Bond.ProtocolType.COMPACT_PROTOCOL; }
-        }
+        public global::Bond.ProtocolType ProtocolType { get; }
 
         public bool IsMarshaled
         {
@@ -107,7 +57,7 @@
 
         public void Serialize<T>(Output output, T obj)
         {
-            global::Bond.Marshal.To(new global::Bond.Protocols.CompactBinaryWriter<Output>(output), obj);
+            global::Bond.Marshal.To(ProtocolFactory<Writer>.Make(output), obj);
         }
 
         public T Deserialize<T>(Input input)
@@ -116,53 +66,31 @@
         }
     }
 
-    public struct FastBinaryMarshaler<Input, Output> : ISerializer<Input, Output>
+    internal struct Serializer<Input, Reader, Output, Writer> : ISerializer<Input, Output>
         where Input : IInputStream, global::Bond.IO.ICloneable<Input>
         where Output : IOutputStream
+        where Writer : global::Bond.Protocols.IProtocolWriter
     {
-        public global::Bond.ProtocolType ProtocolType
+        public Serializer(global::Bond.ProtocolType protocol)
         {
-            get { return global::Bond.ProtocolType.FAST_PROTOCOL; }
+            ProtocolType = protocol;
         }
+
+        public global::Bond.ProtocolType ProtocolType { get; }
 
         public bool IsMarshaled
         {
-            get { return true; }
+            get { return false; }
         }
 
         public void Serialize<T>(Output output, T obj)
         {
-            global::Bond.Marshal.To(new global::Bond.Protocols.FastBinaryWriter<Output>(output), obj);
+            global::Bond.Serialize.To(ProtocolFactory<Writer>.Make(output), obj);
         }
 
         public T Deserialize<T>(Input input)
         {
-            return global::Bond.Unmarshal<T>.From(input);
-        }
-    }
-
-    public struct SimpleBinaryMarshaler<Input, Output> : ISerializer<Input, Output>
-        where Input : IInputStream, global::Bond.IO.ICloneable<Input>
-        where Output : IOutputStream
-    {
-        public global::Bond.ProtocolType ProtocolType
-        {
-            get { return global::Bond.ProtocolType.SIMPLE_PROTOCOL; }
-        }
-
-        public bool IsMarshaled
-        {
-            get { return true; }
-        }
-
-        public void Serialize<T>(Output output, T obj)
-        {
-            global::Bond.Marshal.To(new global::Bond.Protocols.SimpleBinaryWriter<Output>(output), obj);
-        }
-
-        public T Deserialize<T>(Input input)
-        {
-            return global::Bond.Unmarshal<T>.From(input);
+            return global::Bond.Deserialize<T>.From(ProtocolFactory<Reader>.Make(input));
         }
     }
 
@@ -174,12 +102,20 @@
         {
             switch (protocol)
             {
-                case global::Bond.ProtocolType.COMPACT_PROTOCOL:
-                    return marshal ? (ISerializer<Input, Output>)new CompactBinaryMarshaler<Input, Output>() : new CompactBinarySerializer<Input, Output>();
                 case global::Bond.ProtocolType.FAST_PROTOCOL:
-                    return marshal ? (ISerializer<Input, Output>)new FastBinaryMarshaler<Input, Output>() : new FastBinarySerializer<Input, Output>();
+                    return marshal
+                        ? (ISerializer<Input, Output>)new Marshaler<Input, Output, global::Bond.Protocols.FastBinaryWriter<Output>>(protocol)
+                        : new Serializer<Input, global::Bond.Protocols.FastBinaryReader<Input>, Output, global::Bond.Protocols.FastBinaryWriter<Output>>(protocol);
+
+                case global::Bond.ProtocolType.COMPACT_PROTOCOL:
+                    return marshal
+                        ? (ISerializer<Input, Output>)new Marshaler<Input, Output, global::Bond.Protocols.CompactBinaryWriter<Output>>(protocol)
+                        : new Serializer<Input, global::Bond.Protocols.CompactBinaryReader<Input>, Output, global::Bond.Protocols.CompactBinaryWriter<Output>>(protocol);
+
                 case global::Bond.ProtocolType.SIMPLE_PROTOCOL:
-                    return marshal ? (ISerializer<Input, Output>)new SimpleBinaryMarshaler<Input, Output>() : new SimpleBinarySerializer<Input, Output>();
+                    return marshal
+                        ? (ISerializer<Input, Output>)new Marshaler<Input, Output, global::Bond.Protocols.SimpleBinaryWriter<Output>>(protocol)
+                        : new Serializer<Input, global::Bond.Protocols.SimpleBinaryReader<Input>, Output, global::Bond.Protocols.SimpleBinaryWriter<Output>>(protocol);
             }
 
             throw new IPC.Managed.Exception("Unknown protocol.");
