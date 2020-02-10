@@ -5,6 +5,16 @@ image: Visual Studio 2019
 cache:
   - IPC\packages -> **\packages.config
 
+# Use custom 'clone_script' instead of 'install' in order to run it before the cache from submodule is restored.
+clone_script:
+  - git clone -q --branch=%APPVEYOR_REPO_BRANCH% https://github.com/%APPVEYOR_REPO_NAME%.git %APPVEYOR_BUILD_FOLDER%
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - git checkout -qf %APPVEYOR_REPO_COMMIT%
+  - git submodule update --init
+  - cd bond
+  - git submodule update --init thirdparty\rapidjson
+  - cd ..
+
 platform:
   - x64
 
@@ -16,16 +26,12 @@ environment:
   BUILD_PATH: $(platform)\$(configuration)
 
 install:
-  - git submodule update --init
-  - cd bond
-  - git submodule update --init thirdparty\rapidjson
-  - cd ..
+  - nuget restore IPC.Bond.sln
 
 matrix:
   fast_finish: true
 
 before_build:
-  - nuget restore IPC.Bond.sln
   - bond.cmd %configuration% "C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - msbuild IPC\IPC.sln /p:Configuration=%configuration% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
