@@ -32,8 +32,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bond">
-      <HintPath>..\IPC\Packages\Bond.Core.CSharp.6.0.0\lib\net45\Bond.dll</HintPath>
+    <Reference Include="Bond, Version=8.2.0.100, Culture=neutral, PublicKeyToken=87e9ead25a117286, processorArchitecture=MSIL">
+      <HintPath>..\IPC\Packages\Bond.Core.CSharp.8.2.0\lib\net46\Bond.dll</HintPath>
     </Reference>
     <Reference Include="IPC.Managed">
       <HintPath>..\IPC\$(Platform)\$(Configuration)\IPC.Managed.dll</HintPath>
