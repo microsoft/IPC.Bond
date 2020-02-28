@@ -18,7 +18,7 @@ BOOST_AUTO_TEST_SUITE(TransportTests)
 
 struct Traits : IPC::Bond::DefaultTraits
 {
-    using TimeoutFactory = IPC::Policies::NullTimeoutFactory;   // Using no-timeout to make these tests reliable.
+    using TimeoutFactory = IPC::Policies::InfiniteTimeoutFactory;   // Using no-timeout to make these tests reliable.
 
     template <typename Context>
     using TransactionManager = IPC::Policies::TransactionManager<Context, TimeoutFactory>;
