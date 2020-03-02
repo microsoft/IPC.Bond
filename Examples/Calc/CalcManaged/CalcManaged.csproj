@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E84069C7-B1E2-4BF1-9E2F-57827A42D162}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Calc.Managed</RootNamespace>
+    <AssemblyName>CalcManaged</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>$(SolutionDir)\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>$(SolutionDir)\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Bond, Version=8.2.0.100, Culture=neutral, PublicKeyToken=87e9ead25a117286, processorArchitecture=MSIL">
+      <HintPath>..\..\..\IPC\Packages\Bond.Core.CSharp.8.2.0\lib\net46\Bond.dll</HintPath>
+    </Reference>
+    <Reference Include="Bond.Attributes, Version=8.2.0.100, Culture=neutral, PublicKeyToken=87e9ead25a117286, processorArchitecture=MSIL">
+      <HintPath>..\..\..\IPC\Packages\Bond.Core.CSharp.8.2.0\lib\net46\Bond.Attributes.dll</HintPath>
+    </Reference>
+    <Reference Include="IPC.Managed">
+      <HintPath>..\..\..\IPC\$(Platform)\$(Configuration)\IPC.Managed.dll</HintPath>
+    </Reference>
+    <Reference Include="IPC.Managed.Transport">
+      <HintPath>..\..\..\IPC\$(Platform)\$(Configuration)\IPC.Managed.Transport.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Client.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server.cs" />
+    <Compile Include="Service.cs" />
+    <Compile Include="generated\Calc_types.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Managed\Build\Managed.vcxproj">
+      <Project>{705098F7-AAAA-4954-8165-FDDCD66231F0}</Project>
+      <Name>Managed</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Transport\Transport.csproj">
+      <Project>{BDAAAAAD-21a8-446e-840b-68718c49e7d4}</Project>
+      <Name>Transport</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>$(SolutionDir)\IPC\packages\Bond.Compiler.8.2.0\tools\gbc.exe c# -o=$(MSBuildProjectDirectory)\generated $(MSBuildProjectDirectory)\..\Calc.bond</PreBuildEvent>
+  </PropertyGroup>
+</Project>

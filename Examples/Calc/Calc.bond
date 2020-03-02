@@ -1,0 +1,22 @@
+namespace Calc
+
+enum Operation
+{
+    Add,
+    Subtract,
+    Multiply,
+    Divide
+}
+
+struct Request
+{
+    0: float X;
+    1: float Y;
+    2: Operation Op = Add;
+};
+
+struct Response
+{
+    0: float Z;
+    1: string Text;
+}
