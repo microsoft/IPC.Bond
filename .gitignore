@@ -43,3 +43,4 @@
 
 # Generated files
 UnitTestsManaged/generated
+/Examples/**/generated

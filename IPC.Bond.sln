@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests", "UnitTests\Build\UnitTests.vcxproj", "{2A3B9657-1D10-4A71-AA21-62AD4106CED4}"
 EndProject
@@ -14,6 +14,15 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transport", "Transport\Transport.csproj", "{BDAAAAAD-21A8-446E-840B-68718C49E7D4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestsManaged", "UnitTestsManaged\UnitTestsManaged.csproj", "{BDFCB3AD-21A8-446E-840B-68718C49E7D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{400CF9E7-45B2-4AEF-A76F-2E8289A27077}"
+	ProjectSection(SolutionItems) = preProject
+		Examples\Calc\Calc.bond = Examples\Calc\Calc.bond
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CalcNative", "Examples\Calc\CalcNative\CalcNative.vcxproj", "{40DD9D26-2E80-44C5-917C-85036B8D7DE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalcManaged", "Examples\Calc\CalcManaged\CalcManaged.csproj", "{E84069C7-B1E2-4BF1-9E2F-57827A42D162}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,8 +54,23 @@ Global
 		{BDFCB3AD-21A8-446E-840B-68718C49E7D4}.Debug|x64.Build.0 = Debug|x64
 		{BDFCB3AD-21A8-446E-840B-68718C49E7D4}.Release|x64.ActiveCfg = Release|x64
 		{BDFCB3AD-21A8-446E-840B-68718C49E7D4}.Release|x64.Build.0 = Release|x64
+		{40DD9D26-2E80-44C5-917C-85036B8D7DE6}.Debug|x64.ActiveCfg = Debug|x64
+		{40DD9D26-2E80-44C5-917C-85036B8D7DE6}.Debug|x64.Build.0 = Debug|x64
+		{40DD9D26-2E80-44C5-917C-85036B8D7DE6}.Release|x64.ActiveCfg = Release|x64
+		{40DD9D26-2E80-44C5-917C-85036B8D7DE6}.Release|x64.Build.0 = Release|x64
+		{E84069C7-B1E2-4BF1-9E2F-57827A42D162}.Debug|x64.ActiveCfg = Debug|x64
+		{E84069C7-B1E2-4BF1-9E2F-57827A42D162}.Debug|x64.Build.0 = Debug|x64
+		{E84069C7-B1E2-4BF1-9E2F-57827A42D162}.Release|x64.ActiveCfg = Release|x64
+		{E84069C7-B1E2-4BF1-9E2F-57827A42D162}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{40DD9D26-2E80-44C5-917C-85036B8D7DE6} = {400CF9E7-45B2-4AEF-A76F-2E8289A27077}
+		{E84069C7-B1E2-4BF1-9E2F-57827A42D162} = {400CF9E7-45B2-4AEF-A76F-2E8289A27077}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4AA99B23-F620-4801-9653-59F81A3D3D09}
 	EndGlobalSection
 EndGlobal

@@ -15,7 +15,7 @@ In order to build the library you will need to do the following:
 
 # Getting Started
 
-Start with [C++](https://github.com/Microsoft/IPC.Bond/blob/master/UnitTests/TransportTests.cpp) and [C#](https://github.com/Microsoft/IPC.Bond/blob/master/UnitTestsManaged/TransportTests.cs) tests.
+Start with [examples](https://github.com/Microsoft/IPC.Bond/tree/master/Examples), [C++](https://github.com/Microsoft/IPC.Bond/blob/master/UnitTests/TransportTests.cpp) and [C#](https://github.com/Microsoft/IPC.Bond/blob/master/UnitTestsManaged/TransportTests.cs) tests.
 
 # Contributing
 
